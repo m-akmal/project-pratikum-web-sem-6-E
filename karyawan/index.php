@@ -44,6 +44,11 @@
       <img class="mb-4" src="assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Silakan Login</h1>
       <?php
+      session_start();
+      if (isset($_SESSION['username'])) {
+        header('Location: pages/main.php');
+      }
+
       if (isset($_POST['button_login'])) {
         $loginSQL = "SELECT * FROM pengguna 
           WHERE username='" . $_POST['username'] . "' AND password=MD5('" . $_POST['password'] . "')";
@@ -62,7 +67,9 @@
           </div>
 
         <?php
-          header('Location: pages/dashboard.php');
+          $_SESSION['username'] = $_POST['username'];
+
+          header('Location: pages/main.php');
         } else {
         ?>
           <div class="alert alert-danger" role="alert">
